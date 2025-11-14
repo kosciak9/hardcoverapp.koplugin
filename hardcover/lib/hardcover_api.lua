@@ -1,6 +1,6 @@
 local config = require("hardcover_config")
 local logger = require("logger")
-local https = require("ssl.https")
+local http = require("socket.http")
 local ltn12 = require("ltn12")
 local json = require("json")
 local _t = require("hardcover/lib/table_util")
@@ -152,14 +152,14 @@ function HardcoverApi:_query(query, parameters)
     sink = socketutil.table_sink(sink),
   }
 
-  local _, code, _headers, _status = https.request(request)
+  local _, code, _headers, _status = http.request(request)
   socketutil:reset_timeout()
 
   local content = table.concat(sink) -- empty or content accumulated till now
   --logger.warn(requestBody)
   if code == socketutil.TIMEOUT_CODE or
-      code == socketutil.SSL_HANDSHAKE_CODE or
-      code == socketutil.SINK_TIMEOUT_CODE
+    code == socketutil.SSL_HANDSHAKE_CODE or
+    code == socketutil.SINK_TIMEOUT_CODE
   then
     logger.warn("request interrupted:", code)
     return code .. ':'

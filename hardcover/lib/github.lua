@@ -1,4 +1,4 @@
-local https = require("ssl.https")
+local http = require("socket.http")
 local json = require("json")
 local ltn12 = require("ltn12")
 
@@ -10,7 +10,7 @@ local Github = {}
 
 function Github:newestRelease()
   local responseBody = {}
-  local res, code, responseHeaders = https.request {
+  local res, code, responseHeaders = http.request {
     url = RELEASE_API,
     sink = ltn12.sink.table(responseBody),
   }
