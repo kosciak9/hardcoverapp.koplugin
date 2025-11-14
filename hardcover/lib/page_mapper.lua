@@ -92,11 +92,16 @@ function PageMapper:cachePageMap()
   self.state.page_map = lookup
 end
 
-function PageMapper:getMappedPagePercent(raw_page, document_pages, remote_pages)
-  local mapped_page = self.state.page_map and self.state.page_map[raw_page]
+function PageMapper:getMappedPagePercent(raw_page, document_pages)
+  self:checkIgnorePagemap()
 
-  if mapped_page and remote_pages then
-    return mapped_page / remote_pages
+  if self.state.page_map and self.state.page_map_range then
+    local mapped_page = self.state.page_map[raw_page]
+    local max_page = self.state.page_map_range.real_page
+
+    if mapped_page and max_page then
+      return mapped_page / max_page
+    end
   end
 
   if document_pages then
@@ -106,9 +111,10 @@ function PageMapper:getMappedPagePercent(raw_page, document_pages, remote_pages)
   return 0
 end
 
+-- Used to decide whether a reading threshold has been crossed
 function PageMapper:getRemotePagePercent(raw_page, document_pages, remote_pages)
   local total_pages = remote_pages or document_pages
-  local local_percent = self:getMappedPagePercent(raw_page, document_pages, remote_pages)
+  local local_percent = self:getMappedPagePercent(raw_page, document_pages)
 
   local remote_page = math.floor(local_percent * total_pages)
   return remote_page / total_pages, remote_page
