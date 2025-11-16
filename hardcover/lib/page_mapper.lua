@@ -38,8 +38,13 @@ function PageMapper:getMappedPage(raw_page, document_pages, remote_pages)
   return raw_page
 end
 
+function PageMapper:usePageMap()
+  return self.ui.pagemap:wantsPageLabels() and not self.ui.pagemap.chars_per_synthetic_page
+end
+
 function PageMapper:checkIgnorePagemap()
-  local current_page_labels = self.ui.pagemap:wantsPageLabels()
+  local current_page_labels = self:usePageMap()
+
   if current_page_labels == self.use_page_map then
     return
   end
@@ -61,7 +66,7 @@ local toInteger = function(number)
 end
 
 function PageMapper:cachePageMap()
-  if not self.ui.pagemap:wantsPageLabels() then
+  if not self:usePageMap() then
     return
   end
   local page_map = self.ui.document:getPageMap()
