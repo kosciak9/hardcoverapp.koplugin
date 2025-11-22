@@ -1,8 +1,26 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+* Publisher page labels will now be used for reading progress without translation
+* Percentage calculation used to determine when to create new journal entries now uses the page
+  label divided by edition page count. This is weird but ensures that journal reading percentage is close to the
+  selected interval
+* Plugin will now ignore page mapping if publisher page labels are disabled in KOReader
+
+### Fixes
+
+* Switch to `socket.http` implementation to better support proxy usage
+
+### Chores
+
+* Fix zip release directory structure
+
 ## 0.1.3 (2025-09-10)
 
-### 🚀 Added
+### Added
 
 * Register action to immediately update reading
   progress [#19](https://github.com/Billiam/hardcoverapp.koplugin/issues/19)
@@ -10,41 +28,41 @@
 
 ## 0.1.2 (2025-05-13)
 
-### 🚀 Added
+### Added
 
 * Hardcover menu now visible in both reading view and file manager view
 * Sort ebooks above physical books in edition list
 * Support [airplane mode plugin](https://github.com/kodermike/airplanemode.koplugin)
 
-### 🩹 Fixes
+### Fixes
 
 * Remove 50 book limit from edition selection
 
 ## 0.1.1 (2025-04-12)
 
-### 🚀 Added
+### Added
 
 * Reduce data requested from search API endpoint
 
-### 🩹 Fixes
+### Fixes
 
 * Fix missing invalid API key warning after request failure
 
-### 🧹 Chores
+### Chores
 
 * Remove dependency on coverbrowser plugin
 
 ## 0.1.0 (2025-03-21)
 
-### 🚀 Added
+### Added
 
 * Prompt to enable wifi if needed before opening journal dialog
 
-### 🧹 Chores
+### Chores
 
 * Include user agent in requests to hardcover API
 
-### 🩹 Fixes
+### Fixes
 
 * Always show book format and reader count in list view
 * Fix potential crash when document is no longer available when fetching book cache
@@ -54,13 +72,13 @@
 
 ## 0.0.8 (2025-01-16)
 
-### 🚀 Added
+### Added
 
 * Display edition language and series in book searches
 * Add option to turn on/off wifi automatically for background updates on some devices where possible
 * Changed manual page update dialog to allow updating by document page or hardcover page with synchronized display
 
-### 🩹 Fixes
+### Fixes
 
 * Fix crash when navigating to previous page in search menu after images have loaded
 * Fix crash related to book settings when active document has been closed
@@ -68,7 +86,7 @@
 * Fix ISBN values with hyphens being ignored by automatic book linking
 * Fix pages exceeding a document's page map being treated as lower numbers than previous page
 
-### 🧹 Chores
+### Chores
 
 * Renamed lib directory and config.lua to prevent conflicts with other plugins
 
@@ -79,14 +97,14 @@ on your device.
 
 ## 0.0.7 (2024-12-30)
 
-### 🚀 Added
+### Added
 
 * Added option to update books by percentage completed rather than timed updates
 * Display error and disable some functionality when Hardcover API indicates that API key is not valid, in preparation
   for [upcoming API key reset](https://github.com/Billiam/hardcoverapp.koplugin/issues/6)
 * Allow linking books, enabling/disabling book tracking from KOReader's gesture manager
 
-### 🩹 Fixes
+### Fixes
 
 * Fix crash when linking book from hardcover menu
 * Fix automatic book linking not working unless track progress (or always track progress) already set
@@ -97,7 +115,7 @@ on your device.
 * Fix off-by-one page number issue when document contains a page map
 * Fix unable to set edition if that edition already set in hardcover
 
-### 🧹 Chores
+### Chores
 
 * Update default edition selection in journal dialog to use multiple API calls instead of one due to upcoming Hardcover
   API limits
@@ -105,17 +123,17 @@ on your device.
 
 ## 0.0.6 (2024-12-10)
 
-### 🚀 Added
+### Added
 
 * Added compatibility mode with reduced detail in search dialog for incompatible versions of KOReader
 
-### 🩹 Fixes
+### Fixes
 
 * Fix crash when selecting specific edition in journal dialog
 
 ## 0.0.5 (2024-12-04)
 
-### 🩹 Fixes
+### Fixes
 
 * Fix failed identifier parsing by Hardcover slug
 * Fix error when searching for books by Hardcover identifiers
@@ -124,20 +142,20 @@ on your device.
 
 ## 0.0.4 (2024-12-01)
 
-### 🩹 Fixes
+### Fixes
 
 * Fix error when sorting books in Hardcover search
 
 ## 0.0.3 (2024-11-29)
 
-### 🩹 Fixes
+### Fixes
 
 * Fixed autolink failing for Hardcover identifiers and title
 * Fixed autolink not displaying success notification
 
 ## 0.0.2 (2024-11-27)
 
-### 🩹 Fixes
+### Fixes
 
 * Increased default tracking frequency to every 5 minutes
 * Skip book data caching if not currently viewing a document
