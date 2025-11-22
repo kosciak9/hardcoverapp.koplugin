@@ -253,21 +253,11 @@ describe("PageMapper", function()
     end)
   end)
 
-  describe("getMappedPercent", function()
-    it("returns the completion percentage if no map is available", function()
-      local page_map = PageMapper:new {
-        state = {},
-        ui = ui({})
-      }
-      assert.are.equal(0.5, page_map:getMappedPagePercent(10, 20, 10000))
-    end)
-  end)
-
   describe("getRemotePagePercent", function()
     it("returns the percent of the equivalent floored remote page", function()
       local page_map = PageMapper:new {
         state = {},
-        ui = ui({})
+        ui = ui({}, false)
       }
 
       local percent, page = page_map:getRemotePagePercent(10, 20, 29)
@@ -279,13 +269,49 @@ describe("PageMapper", function()
     it("returns a simple percentage if remote page is unavailable", function()
       local page_map = PageMapper:new {
         state = {},
-        ui = ui({})
+        ui = ui({}, false)
       }
 
       local percent, page = page_map:getRemotePagePercent(10, 20)
 
       assert.are.equal(0.5, percent)
       assert.are.equal(10, page)
+    end)
+    describe("when there is a page map", function()
+      local map = {
+        {
+          page = 20,
+          label = "50",
+        },
+        {
+          page = 30,
+          label = "200"
+        }
+      }
+
+      it("returns the percent of mapped page to remote page", function()
+        local page_map = PageMapper:new {
+          state = {},
+          ui = ui(map)
+        }
+
+        local percent, page = page_map:getRemotePagePercent(20, 20, 100)
+
+        assert.are.equal(0.5, percent)
+        assert.are.equal(50, page)
+      end)
+
+      it("returns the percent of mapped page to document pages if no remote page available", function()
+        local page_map = PageMapper:new {
+          state = {},
+          ui = ui(map)
+        }
+
+        local percent, page = page_map:getRemotePagePercent(20, 20)
+
+        assert.are.equal(0.25, percent)
+        assert.are.equal(50, page)
+      end)
     end)
   end)
 end)
