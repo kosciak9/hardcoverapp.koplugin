@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+* Plugin will now consider the `hardcover-slug` ebook identifier in addition to `hardcover` identifier (by [@yd4dev](https://github.com/yd4dev))
+
 ## 0.2.0 (2025-11-22)
 
 ### Added
