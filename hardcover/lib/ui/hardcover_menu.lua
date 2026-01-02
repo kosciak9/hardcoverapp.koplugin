@@ -603,6 +603,16 @@ function HardcoverMenu:getSettingsSubMenuItems()
       end,
     },
     {
+      text = "Automatically set status to Currently Reading",
+      checked_func = function()
+        return self.settings:readSetting(SETTING.AUTO_STATUS_READING) == true
+      end,
+      callback = function()
+        local setting = self.settings:readSetting(SETTING.AUTO_STATUS_READING) == true
+        self.settings:updateSetting(SETTING.AUTO_STATUS_READING, not setting)
+      end,
+    },
+    {
       text = "Enable wifi on demand",
       checked_func = function()
         return self.settings:readSetting(SETTING.ENABLE_WIFI) == true
