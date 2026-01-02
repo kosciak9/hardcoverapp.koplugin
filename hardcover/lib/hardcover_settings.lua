@@ -194,4 +194,8 @@ function HardcoverSettings:compatibilityMode()
   return self.settings:readSetting(SETTING.COMPATIBILITY_MODE) == true
 end
 
+function HardcoverSettings:autoStatusReading()
+  return self.settings:readSetting(SETTING.AUTO_STATUS_READING) == true
+end
+
 return HardcoverSettings

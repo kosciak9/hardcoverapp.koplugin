@@ -1,5 +1,6 @@
 local Settings = {
   ALWAYS_SYNC = "always_sync",
+  AUTO_STATUS_READING = "auto_status_reading",
   BOOKS = "books",
   COMPATIBILITY_MODE = "compatibility_mode",
   ENABLE_WIFI = "enable_wifi",

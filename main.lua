@@ -277,18 +277,33 @@ function HardcoverApp:_handlePageUpdate(filename, mapped_page, immediate, callba
     return
   end
 
-  if self.state.book_status.status_id ~= HARDCOVER.STATUS.READING then
-    return
-  end
-
-  local reads = self.state.book_status.user_book_reads
-  local current_read = reads and reads[#reads]
-  if not current_read then
-    return
-  end
-
-  local immediate_update = function()
+  local dominated_update = function()
     self.wifi:withWifi(function()
+      -- Auto-set status to Currently Reading if enabled and status allows it
+      if self.settings:autoStatusReading() then
+        local status_id = self.state.book_status.status_id
+        if status_id ~= HARDCOVER.STATUS.READING and
+           status_id ~= HARDCOVER.STATUS.FINISHED and
+           status_id ~= HARDCOVER.STATUS.DNF then
+          self.cache:updateBookStatus(filename, HARDCOVER.STATUS.READING)
+          if self.state.book_status.id then
+            UIManager:show(Notification:new {
+              text = _("Status updated to Currently Reading"),
+            })
+          end
+        end
+      end
+
+      if self.state.book_status.status_id ~= HARDCOVER.STATUS.READING then
+        return
+      end
+
+      local reads = self.state.book_status.user_book_reads
+      local current_read = reads and reads[#reads]
+      if not current_read then
+        return
+      end
+
       local result = Api:updatePage(current_read.id, current_read.edition_id, mapped_page, current_read.started_at)
       if result then
         self.state.book_status = result
@@ -300,11 +315,11 @@ function HardcoverApp:_handlePageUpdate(filename, mapped_page, immediate, callba
   end
 
   local trapped_update = function()
-    Trapper:wrap(immediate_update)
+    Trapper:wrap(dominated_update)
   end
 
   if immediate then
-    immediate_update()
+    dominated_update()
   else
     UIManager:scheduleIn(1, trapped_update)
   end
