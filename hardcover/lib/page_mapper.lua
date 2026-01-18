@@ -107,11 +107,19 @@ function PageMapper:getRemotePagePercent(raw_page, document_pages, remote_pages)
   if self.state.page_map then
     mapped_page = self.state.page_map[raw_page]
 
-    if remote_pages then
-      -- return labeled page divided by edition page count to maintain correct page/percentage in journal entries
-      return math.min(1.0, mapped_page / remote_pages), mapped_page
-    elseif self.state.page_map_range and self.state.page_map_range.real_page then
-      local_percent = mapped_page / self.state.page_map_range.real_page
+    if not mapped_page then
+      if self.state.page_map_range and self.state.page_map_range.last_page and raw_page > self.state.page_map_range.last_page then
+        return 1
+      end
+    end
+
+    if mapped_page then
+      if remote_pages then
+        -- return labeled page divided by edition page count to maintain correct page/percentage in journal entries
+        return math.min(1.0, mapped_page / remote_pages), mapped_page
+      elseif self.state.page_map_range and self.state.page_map_range.real_page then
+        local_percent = mapped_page / self.state.page_map_range.real_page
+      end
     end
   end
 
