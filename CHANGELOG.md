@@ -37,6 +37,7 @@
 ### Added
 
 * Hardcover menu now visible in both reading view and file manager view
+* Added "suggest a book" to hardcover menu. Displays 10 books from your to-read list at random.
 * Sort ebooks above physical books in edition list
 * Support [airplane mode plugin](https://github.com/kodermike/airplanemode.koplugin)
 
