@@ -1,4 +1,5 @@
 local _t = require("hardcover/lib/table_util")
+local logger = require('logger')
 
 local PageMapper = {}
 PageMapper.__index = PageMapper
@@ -39,7 +40,7 @@ function PageMapper:getMappedPage(raw_page, document_pages, remote_pages)
 end
 
 function PageMapper:usePageMap()
-  return self.ui.pagemap:wantsPageLabels() and not self.ui.pagemap.chars_per_synthetic_page
+  return self.ui.pagemap and self.ui.pagemap:wantsPageLabels() and not self.ui.pagemap.chars_per_synthetic_page
 end
 
 function PageMapper:checkIgnorePagemap()
