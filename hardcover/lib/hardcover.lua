@@ -74,6 +74,11 @@ function Hardcover:showRandomBookDialog()
     end
 
     if not cache.random_books or #cache.random_books == 0 then
+      UIManager:show(Notification:new {
+        text = "No books found on Want to Read list",
+        timeout = 4
+      })
+
       if wifi_enabled then
         UIManager:nextTick(function()
           self.wifi:wifiDisablePrompt()
@@ -186,9 +191,9 @@ function Hardcover:linkBookByIsbn(identifiers)
   if identifiers.isbn_10 or identifiers.isbn_13 then
     local user_id = User:getId()
     local book_lookup = Api:findBookByIdentifiers({
-        isbn_10 = identifiers.isbn_10,
-        isbn_13 = identifiers.isbn_13
-      },
+      isbn_10 = identifiers.isbn_10,
+      isbn_13 = identifiers.isbn_13
+    },
       user_id
     )
     if book_lookup then
@@ -229,8 +234,8 @@ function Hardcover:tryAutolink()
 
   local identifiers = Book:parseIdentifiers(props.identifiers)
   if ((identifiers.isbn_10 or identifiers.isbn_13) and self.settings:readSetting(SETTING.LINK_BY_ISBN))
-      or ((identifiers.book_slug or identifiers.edition_id) and self.settings:readSetting(SETTING.LINK_BY_HARDCOVER))
-      or (props.title and self.settings:readSetting(SETTING.LINK_BY_TITLE)) then
+    or ((identifiers.book_slug or identifiers.edition_id) and self.settings:readSetting(SETTING.LINK_BY_HARDCOVER))
+    or (props.title and self.settings:readSetting(SETTING.LINK_BY_TITLE)) then
     self.wifi:withWifi(function()
       self:_runAutolink(identifiers)
     end)
