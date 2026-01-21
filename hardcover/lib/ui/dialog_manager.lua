@@ -89,6 +89,10 @@ function DialogManager:buildBookListDialog(title, items, icon_callback, disable_
     items = items,
     left_icon_callback = icon_callback,
     left_icon = "cre.render.reload",
+    select_book_cb = function(book)
+      local clean_title = book.title:gsub("^The ", ""):gsub("^An ", ""):gsub("^A ", ""):gsub(" ?%(%d+%)$", "")
+      self.ui.filesearcher:onShowFileSearch(clean_title)
+    end,
     close_callback = function()
       if disable_wifi_after then
         UIManager:nextTick(function()
