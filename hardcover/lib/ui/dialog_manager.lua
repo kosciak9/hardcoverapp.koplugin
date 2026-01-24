@@ -4,6 +4,7 @@ local json = require("json")
 local UIManager = require("ui/uimanager")
 
 local InfoMessage = require("ui/widget/infomessage")
+local FileSearcher = require("apps/filemanager/filemanagerfilesearcher")
 
 local Api = require("hardcover/lib/hardcover_api")
 local Book = require("hardcover/lib/book")
@@ -91,7 +92,13 @@ function DialogManager:buildBookListDialog(title, items, icon_callback, disable_
     left_icon = "cre.render.reload",
     select_book_cb = function(book)
       local clean_title = book.title:gsub("^The ", ""):gsub("^An ", ""):gsub("^A ", ""):gsub(" ?%(%d+%)$", "")
-      self.ui.filesearcher:onShowFileSearch(clean_title)
+  
+      FileSearcher.search_path = G_reader_settings:readSetting("home_dir")
+      FileSearcher.search_string = clean_title
+      self.ui.filesearcher.case_sensitive = false
+      self.ui.filesearcher.include_subfolders = true
+      self.ui.filesearcher.include_metadata = true
+      self.ui.filesearcher:doSearch()
     end,
     close_callback = function()
       if disable_wifi_after then
