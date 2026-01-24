@@ -1,5 +1,4 @@
 local _t = require("hardcover/lib/table_util")
-local logger = require('logger')
 
 local PageMapper = {}
 PageMapper.__index = PageMapper
