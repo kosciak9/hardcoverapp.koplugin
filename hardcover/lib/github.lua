@@ -1,6 +1,8 @@
 local http = require("socket.http")
 local json = require("json")
-local ltn12 = require("ltn12")
+local socketutil = require("socketutil")
+
+local NetworkManager = require("ui/network/manager")
 
 local VERSION = require("hardcover_version")
 
@@ -9,11 +11,17 @@ local RELEASE_API = "https://api.github.com/repos/billiam/hardcoverapp.koplugin/
 local Github = {}
 
 function Github:newestRelease()
+  if not NetworkManager:isConnected() then
+    return nil
+  end
+
   local responseBody = {}
+  socketutil:set_timeout(3, 6)
   local res, code, responseHeaders = http.request {
     url = RELEASE_API,
-    sink = ltn12.sink.table(responseBody),
+    sink = socketutil.table_sink(responseBody),
   }
+  socketutil:reset_timeout()
 
   if code == 200 or code == 304 then
     local data = json.decode(table.concat(responseBody), json.decode.simple)
