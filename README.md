@@ -94,6 +94,15 @@ published book, with a calculation like:
 In both cases, this may not exactly match the page of the published document, and can even be far off if there
 are large differences in the total pages.
 
+### Suggest a book
+
+The suggest a book menu item will display up to 10 books from your Want To Read list in random order. Selecting one of the books in the dialog will start a file search for that book on your device, based on the title. The plugin does not know which books you have or do not have on your device.
+
+The selected books/order are preserved when reopening the dialog (until KOReader is restarted), but you can use the refresh button in the upper left corner to get a new list of 10 books.
+
+![Suggest a book dialog displaying several books. There is a refresh icon in the upper left corner](https://github.com/user-attachments/assets/2564e0f1-2c62-4463-957f-421a47d792d6)
+
+
 ## Settings
 
 ![A settings menu containing the following options: Checkboxes for Automatically link by ISBN, Automatically link by Hardcover identifiers and Automatically link by title and author. Below that is an item to change the Track progress frequency showing the current setting (1 minute), and a checkbox to Always track progress by default.](https://github.com/user-attachments/assets/dc8a397b-f36d-49da-b880-d04d47219ed0)
