@@ -14,10 +14,13 @@ function AutoWifi:new(o)
   return setmetatable(o, self)
 end
 
+-- Returns true if callback was (or will be) invoked, false if wifi is
+-- unavailable and the callback was not called.  Callers that depend on the
+-- callback (e.g. retry schedulers) should check the return value.
 function AutoWifi:withWifi(callback)
   if NetworkMgr:isWifiOn() then
     callback(false)
-    return
+    return true
   end
 
   if self.settings:readSetting(SETTING.ENABLE_WIFI)
@@ -42,7 +45,10 @@ function AutoWifi:withWifi(callback)
       -- TODO: schedule turn off wifi, debounce
       self:wifiDisableSilent()
     end)
+    return true
   end
+
+  return false
 end
 
 function AutoWifi:wifiDisableSilent()
@@ -64,7 +70,7 @@ function AutoWifi:wifiPrompt(callback)
   end
 
   if G_reader_settings:isTrue("airplanemode") then
-    return
+    return false
   end
 
   local network_callback = callback and function() callback(true) end or nil
