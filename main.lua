@@ -540,32 +540,6 @@ function HardcoverApp:syncFileUpdates(filename)
   return self.settings:readBookSetting(filename, "book_id") and self.settings:fileSyncEnabled(filename)
 end
 
-function HardcoverApp:onDocSettingsItemsChanged(file, doc_settings)
-  if not self:syncFileUpdates(file) or not doc_settings then
-    return
-  end
-
-  local status
-  if doc_settings.summary.status == "complete" then
-    status = HARDCOVER.STATUS.FINISHED
-  elseif doc_settings.summary.status == "reading" then
-    status = HARDCOVER.STATUS.READING
-  end
-
-  if status then
-    local book_id = self.settings:readBookSetting(file, "book_id")
-    local user_book = Api:findUserBook(book_id, User:getId()) or {}
-    self.wifi:withWifi(function()
-      self.cache:updateBookStatus(file, status, user_book.privacy_setting_id)
-
-      UIManager:show(InfoMessage:new {
-        text = _("Hardcover status saved"),
-        timeout = 2
-      })
-    end)
-  end
-end
-
 function HardcoverApp:startReadCache()
   --logger.warn("HARDCOVER start read cache")
   if self.state.read_cache_started then
