@@ -1,6 +1,5 @@
 local ButtonDialog = require("ui/widget/buttondialog")
 local DocSettings = require("docsettings")
-local InfoMessage = require("ui/widget/infomessage")
 local Menu = require("ui/widget/menu")
 local UIManager = require("ui/uimanager")
 local logger = require("logger")
