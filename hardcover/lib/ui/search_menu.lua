@@ -17,5 +17,15 @@ SearchMenu._do_cover_images = true
 SearchMenu._do_filename_only = false
 SearchMenu._do_hint_opened = false -- dogear at bottom
 
+function SearchMenu:onGotoPage(page)
+  if page == self.page then
+    return
+  end
+  
+  self.prev_itemnumber = nil
+  self.page = page
+  self:updateItems(1, true)
+  return true
+end
 
 return SearchMenu
