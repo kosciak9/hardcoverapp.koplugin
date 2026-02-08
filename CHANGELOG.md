@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.1 (2026-02-18)
+
+### Added
+
+* Added support for [Updates Manager Plugin](https://github.com/advokatb/updatesmanager.koplugin) (min: v1.4.0)
+
+### Fixes
+
+* Fix page change gestures causing a refresh (even when there are no pages to navigate to) of the suggest a book, and
+  book/edition linking dialogs
+
 ## 0.3.0 (2026-01-24)
 
 ### Added
