@@ -602,7 +602,7 @@ function HardcoverApp:startReadCache()
           if self.state.book_status.id then
             return success()
           else
-            self.wifi:withWifi(function()
+            local wifi_available = self.wifi:withWifi(function()
               if not NetworkManager:isConnected() then
                 return restart()
               end
@@ -617,6 +617,9 @@ function HardcoverApp:startReadCache()
 
               success()
             end)
+            if not wifi_available then
+              return restart()
+            end
           end
         else
           self.hardcover:tryAutolink()
